@@ -175,3 +175,6 @@ cython_debug/
 
 # Saved HTML snapshots
 generated/
+
+# scrapper logs
+/logs

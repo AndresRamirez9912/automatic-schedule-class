@@ -164,7 +164,7 @@ def selectClass(driver: WebDriver):
         print(f"[ERROR] Failed to schedule class: {e}")
         return None
 
-def confirmClass(driver: WebDriver, day: str):
+def confirmClass(driver: WebDriver, day: str=""):
     """
     Schedule the desired hours of the selected class.
     """

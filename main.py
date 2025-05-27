@@ -2,13 +2,15 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from helper.helper import *
 
+time.sleep(10)
+
 chrome_options = Options()
-# chrome_options.add_argument("--headless")  
+chrome_options.add_argument("--headless")  
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
 
 driver = webdriver.Remote(
-    command_executor='http://localhost:4444/wd/hub',
+    command_executor='http://selenium:4444/wd/hub',
     options=chrome_options
 )
 
@@ -28,8 +30,7 @@ OpenClasses(driver)
 selectedClass = selectClass(driver)
 
 # select hours and day
-current_day = get_colombia_day()
-confirmClass(driver, current_day) #schedule current day
+confirmClass(driver) #schedule current day
 
 next_day = get_colombia_day(1)
 confirmClass(driver, next_day) #schedule next day
