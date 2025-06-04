@@ -109,7 +109,7 @@ def OpenClasses(driver: WebDriver):
     except Exception as e:
         print(f"[ERROR] Failed to open classes: {e}")
 
-def selectClass(driver: WebDriver):
+def selectClass(driver: WebDriver, isExam:bool = False):
     """
     select the latest class to schedule
     """
@@ -143,28 +143,29 @@ def selectClass(driver: WebDriver):
             
             for row in rows:
                 text = row.text.lower()
-                match = re.search(r"clase\s*\d+", text)
+                searchText = r"quiz" if isExam else r"clase\s*\d+"
+                match = re.search(searchText, text)
                 if match:
-                    print(f"[INFO] Matching class found: {match.group()}")
+                    print(f"[INFO] Matching class or exam found: {match.group()}")
                     row.click()
                     
                     # Wait and click the assign button
                     assign = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "BUTTON1")))
                     assign.click()
-                    print(f"[INFO] Class {match.group()} selected")
+                    print(f"[INFO] Class or exam {match.group()} selected")
                     return
 
             # If no class row is found, click the next button and wait for table to reload
-            print(f"[INFO] No class found on this page, attempting to load the next page")
+            print(f"[INFO] No class or exam found on this page, attempting to load the next page")
             next_button = table.find_element(By.CLASS_NAME, "PagingButtonsNext")
             next_button.click()
             WebDriverWait(driver, 10).until(EC.staleness_of(table))
 
     except Exception as e:
-        print(f"[ERROR] Failed to schedule class: {e}")
+        print(f"[ERROR] Failed to schedule class or exam: {e}")
         return None
 
-def confirmClass(driver: WebDriver, day: str=""):
+def confirmClass(driver: WebDriver, day: str="", isExam:bool=False):
     """
     Schedule the desired hours of the selected class.
     """
@@ -190,6 +191,19 @@ def confirmClass(driver: WebDriver, day: str=""):
 
             # Wait for dropdown to become stale (means content is reloading)
             WebDriverWait(driver, 10).until(EC.staleness_of(old_table)) 
+            
+        if(isExam):
+            # Select the desired branch
+            dropdown_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "vREGCONREG")))
+            select = Select(dropdown_element)
+            
+            # Get an element of the DOM
+            old_table = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "Grid1ContainerTbl")))
+            
+            # Select International Center (Option 4) and (update DOM)
+            select.select_by_value('4') 
+            print(f"[INFO] International Center selected")
+
 
         # Re-focus iframe and get updated table rows
         refocus_iframe(driver, "gxp1_ifrm")

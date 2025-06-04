@@ -178,3 +178,4 @@ generated/
 
 # scrapper logs
 /logs
+.*.env

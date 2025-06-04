@@ -1,40 +1,47 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from helper.helper import *
+try:
+    from helper.sync import *
+    
+    acquire_lock()
 
-time.sleep(10)
+    from selenium import webdriver
+    from selenium.webdriver.chrome.options import Options
+    from helper.helper import *
 
-chrome_options = Options()
-chrome_options.add_argument("--headless")  
-chrome_options.add_argument("--no-sandbox")
-chrome_options.add_argument("--disable-dev-shm-usage")
+    time.sleep(10)
 
-driver = webdriver.Remote(
-    command_executor='http://selenium:4444/wd/hub',
-    options=chrome_options
-)
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")  
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+
+    driver = webdriver.Remote(
+        command_executor='http://selenium:4444/wd/hub',
+        options=chrome_options
+    )
 
 
-driver.implicitly_wait(10)  # fallback time
+    driver.implicitly_wait(10)  # fallback time
 
-# go to the scholpack page
-driver.get("https://schoolpack.smart.edu.co/idiomas/alumnos.aspx") 
+    # go to the scholpack page
+    driver.get("https://schoolpack.smart.edu.co/idiomas/alumnos.aspx") 
 
-# login
-Login(driver)
+    # login
+    Login(driver)
 
-# open classes
-OpenClasses(driver)
+    # open classes
+    OpenClasses(driver)
 
-# select class to schedule
-selectedClass = selectClass(driver)
+    # select class to schedule
+    selectedClass = selectClass(driver, isExam=True)
 
-# select hours and day
-confirmClass(driver) #schedule current day
+    # select hours and day
+    confirmClass(driver, isExam=True) #schedule current day
 
-next_day = get_colombia_day(1)
-confirmClass(driver, next_day) #schedule next day
+    next_day = get_colombia_day(1)
+    confirmClass(driver, next_day, isExam=True) #schedule next day
 
-# delete chromium
-driver.quit()
+    # delete chromium
+    driver.quit()
 
+finally:
+    release_lock()
