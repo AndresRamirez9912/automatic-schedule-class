@@ -10,7 +10,7 @@ services:
     shm_size: 2gb
   scraper-valen:
     container_name: scraper-valen
-    build: .
+    image: andresramirez991228/smart-scraper:latest
     restart: unless-stopped
     depends_on:
       - selenium
@@ -24,7 +24,7 @@ services:
 
   scraper-andres:
     container_name: scraper-andres
-    build: .
+    image: andresramirez991228/smart-scraper:latest
     restart: unless-stopped
     depends_on:
       - scraper-valen
