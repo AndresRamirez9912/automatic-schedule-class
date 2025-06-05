@@ -32,13 +32,14 @@ try:
     OpenClasses(driver)
 
     # select class to schedule
-    selectedClass = selectClass(driver, isExam=True)
+    isExam = os.getenv("IS_EXAM", "False").lower() in ("true", "1", "yes")
+    selectedClass = selectClass(driver, isExam=isExam)
 
     # select hours and day
-    confirmClass(driver, isExam=True) #schedule current day
+    confirmClass(driver, isExam=isExam) #schedule current day
 
     next_day = get_colombia_day(1)
-    confirmClass(driver, next_day, isExam=True) #schedule next day
+    confirmClass(driver, next_day, isExam=isExam) #schedule next day
 
     # delete chromium
     driver.quit()
