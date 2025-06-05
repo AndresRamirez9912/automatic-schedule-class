@@ -11,6 +11,7 @@ services:
   scraper-valen:
     container_name: scraper-valen
     image: andresramirez991228/smart-scraper:latest
+    platforms: linux/amd64,linux/arm64
     restart: unless-stopped
     depends_on:
       - selenium
@@ -25,6 +26,7 @@ services:
   scraper-andres:
     container_name: scraper-andres
     image: andresramirez991228/smart-scraper:latest
+    platforms: linux/amd64,linux/arm64
     restart: unless-stopped
     depends_on:
       - scraper-valen
