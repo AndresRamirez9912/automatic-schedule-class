@@ -1,6 +1,7 @@
 services:
   selenium:
-    image: selenium/standalone-chrome
+    container_name: selenium
+    image: seleniarm/standalone-chromium
     restart: unless-stopped
     ports:
       - "4444:4444"
@@ -8,6 +9,7 @@ services:
       - "5900:5900"
     shm_size: 2gb
   scraper-valen:
+    container_name: scraper-valen
     build: .
     restart: unless-stopped
     depends_on:
@@ -21,6 +23,7 @@ services:
       - ./shared:/app/shared
 
   scraper-andres:
+    container_name: scraper-andres
     build: .
     restart: unless-stopped
     depends_on:
@@ -33,3 +36,12 @@ services:
       - ./logs:/var/log
       - ./shared:/app/shared
 
+  watchTower:
+    container_name: watchTower
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    environment:
+      - WATCHTOWER_POLL_INTERVAL=300
+      - WATCHTOWER_CLEANUP=true
