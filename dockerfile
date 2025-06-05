@@ -1,9 +1,9 @@
 # Use an arm64v8 Ubuntu 22.04 base image (optimized for Raspberry Pi 4)
 
-# FROM ubuntu:22.04
+FROM ubuntu:22.04
 
 # Raspberry distribution
-FROM arm64v8/ubuntu:22.04 
+#FROM arm64v8/ubuntu:22.04 
 
 # Environment variable to suppress interactive prompts during package installation
 # ENV DEBIAN_FRONTEND=noninteractive
