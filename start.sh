@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Crea el archivo temporal con el cronjob
-echo "0 5-21 * * 0-5 USERNAME=$USERNAME PASSWORD=$PASSWORD IS_EXAM=$IS_EXAM python3 /app/main.py >> /var/log/cron.log 2>&1" > /tmp/mycron
+echo "0 5-21 * * 0-5 USERNAME=$USERNAME PASSWORD=$PASSWORD IS_EXAM=$IS_EXAM TARGET_TIMES=$TARGET_TIMES python3 /app/main.py >> /var/log/cron.log 2>&1" > /tmp/mycron
 
 # Instala el cronjob para el usuario root
 crontab /tmp/mycron

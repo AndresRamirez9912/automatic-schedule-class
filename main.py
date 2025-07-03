@@ -34,10 +34,11 @@ try:
     # select class to schedule
     isExam = os.getenv("IS_EXAM", "False").lower() in ("true", "1", "yes")
     selectedClass = selectClass(driver, isExam=isExam)
-
-    # select hours and day
+    
+    #  Schedule Current Day
     confirmClass(driver, isExam=isExam) #schedule current day
 
+    #  Schedule Next Day
     next_day = get_colombia_day(1)
     confirmClass(driver, next_day, isExam=isExam) #schedule next day
 

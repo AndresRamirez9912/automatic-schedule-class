@@ -170,7 +170,8 @@ def confirmClass(driver: WebDriver, day: str="", isExam:bool=False):
     Schedule the desired hours of the selected class.
     """
 
-    target_times = ["18:00", "19:30"]
+    times = os.getenv("TARGET_TIMES", "")
+    target_times = [t.strip() for t in times.split(",") if t.strip()]
     confirmed_times = []
 
     try:
